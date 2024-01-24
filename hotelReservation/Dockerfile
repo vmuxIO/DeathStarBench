@@ -28,3 +28,5 @@ COPY --from=builder /go/bin/recommendation .
 COPY --from=builder /go/bin/reservation .
 COPY --from=builder /go/bin/search .
 COPY --from=builder /go/bin/user .
+
+COPY config.json .
