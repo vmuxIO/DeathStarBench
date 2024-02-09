@@ -24,10 +24,10 @@ async def register_movie(session, addr, movie):
   async with session.post(addr + "/wrk2-api/movie/register", data=params) as resp:
     return await resp.text()
 
-async def write_cast_info(addr, raw_casts):
+async def write_cast_info(addr, raw_casts, limit):
   idx = 0
   tasks = []
-  conn = aiohttp.TCPConnector(limit=200)
+  conn = aiohttp.TCPConnector(limit=limit)
   async with aiohttp.ClientSession(connector=conn) as session:
     for raw_cast in raw_casts:
       try:
@@ -43,14 +43,14 @@ async def write_cast_info(addr, raw_casts):
         print("Warning: cast info missing!")
       if idx % 200 == 0:
         resps = await asyncio.gather(*tasks)
-        print(idx, "casts finished")
+        print(idx, "casts finished", flush=True)
     resps = await asyncio.gather(*tasks)
     print(idx, "casts finished")
 
-async def write_movie_info(addr, raw_movies):
+async def write_movie_info(addr, raw_movies, limit):
   idx = 0
   tasks = []
-  conn = aiohttp.TCPConnector(limit=200)
+  conn = aiohttp.TCPConnector(limit=limit)
   async with aiohttp.ClientSession(connector=conn) as session:
     for raw_movie in raw_movies:
       movie = dict()
@@ -85,7 +85,7 @@ async def write_movie_info(addr, raw_movies):
       idx += 1
       if idx % 200 == 0:
         resps = await asyncio.gather(*tasks)
-        print(idx, "movies finished")
+        print(idx, "movies finished", flush=True)
     resps = await asyncio.gather(*tasks)
     print(idx, "movies finished")
 
@@ -97,16 +97,17 @@ if __name__ == '__main__':
     type=str, default="../datasets/tmdb/movies.json")
   parser.add_argument("--server_address", action="store", dest="server_addr",
     type=str, default="http://127.0.0.1:8080")
+  parser.add_argument('--limit', type=int, help='total number simultaneous connections', default=200)
   args = parser.parse_args()
 
   with open(args.cast_filename, 'r') as cast_file:
     raw_casts = json.load(cast_file)
   loop = asyncio.get_event_loop()
-  future = asyncio.ensure_future(write_cast_info(args.server_addr, raw_casts))
+  future = asyncio.ensure_future(write_cast_info(args.server_addr, raw_casts, args.limit))
   loop.run_until_complete(future)
 
   with open(args.movie_filename, 'r') as movie_file:
     raw_movies = json.load(movie_file)
     loop = asyncio.get_event_loop()
-    future = asyncio.ensure_future(write_movie_info(args.server_addr, raw_movies))
+    future = asyncio.ensure_future(write_movie_info(args.server_addr, raw_movies, args.limit))
     loop.run_until_complete(future)
