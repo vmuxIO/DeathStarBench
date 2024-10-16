@@ -2,14 +2,14 @@ version: "3"
 services:
 #   Enables resolving container hostnames from host machine
   dns-media:
-    image: defreitas/dns-proxy-server
+    image: defreitas/dns-proxy-server # known working bd4a3e2b35fe
     volumes:
       - /opt/dns-proxy-server/conf:/app/conf
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/resolv.conf:/etc/resolv.conf
 
   unique-id-service:
-    image: yg397/media-microservices
+    image: yg397/media-microservices # known working ea97386bd971
     hostname: unique-id-service
 #    ports:
 #      - 10001:9090
@@ -25,14 +25,14 @@ services:
     entrypoint: MovieIdService
 
   movie-id-mongodb:
-    image: mongo:4.4.6
+    image: mongo:4.4.6 # known working 61ea24dc52c6
     hostname: movie-id-mongodb
 #    ports:
 #      - 27018:27017
     restart: always
 
   movie-id-memcached:
-    image: memcached
+    image: memcached # known working a02edcf1b9d0
     hostname: movie-id-memcached
 #    ports:
 #      - 11212:11211
@@ -55,7 +55,7 @@ services:
     entrypoint: RatingService
 
   rating-redis:
-    image: redis
+    image: redis # known working 9c893be668ac
     hostname: rating-redis
 #    ports:
 #      - 6382:6379
@@ -165,7 +165,7 @@ services:
     restart: always
 
   nginx-web-server:
-    image: yg397/openresty-thrift:xenial
+    image: yg397/openresty-thrift:xenial # known working 71414b07488e
     hostname: nginx-thrift
     ports:
       - 8080:8080

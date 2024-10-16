@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   social-graph-service:
-    image: deathstarbench/social-network-microservices:latest
+    image: deathstarbench/social-network-microservices:latest # known working f0c209ccea20
     hostname: social-graph-service
     #    ports:
     #      - 10000:9090
@@ -16,14 +16,14 @@ services:
       - ./config:/social-network-microservices/config
 
   social-graph-mongodb:
-    image: mongo:4.4.6
+    image: mongo:4.4.6 # known working 61ea24dc52c6
     hostname: social-graph-mongodb
     # ports:
     #   - 27018:27017
     restart: always
 
   social-graph-redis:
-    image: redis
+    image: redis # known working 9c893be668ac
     hostname: social-graph-redis
     # ports:
     #   - 6380:6379
@@ -65,7 +65,7 @@ services:
       - ./config:/social-network-microservices/config
 
   post-storage-memcached:
-    image: memcached
+    image: memcached # known working a02edcf1b9d0
     hostname: post-storage-memcached
     #    ports:
     #      - 11212:11211
@@ -247,7 +247,7 @@ services:
       - ./config:/social-network-microservices/config
 
   nginx-thrift:
-    image: yg397/openresty-thrift:xenial
+    image: yg397/openresty-thrift:xenial # known working 71414b07488e
     hostname: nginx-thrift
     ports:
       - 8080:8080
@@ -264,7 +264,7 @@ services:
       - ./docker/openresty-thrift/lua-thrift:/usr/local/openresty/lualib/thrift
 
   media-frontend:
-    image: yg397/media-frontend:xenial
+    image: yg397/media-frontend:xenial # known working 07c94a4ce3df
     hostname: media-frontend
     ports:
       - 8081:8080
@@ -277,7 +277,7 @@ services:
       - ./media-frontend/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
 
   jaeger-agent:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/all-in-one:latest # known working a13f4e85c017
     ports:
       #      - 5775:5775/udp
       #      - 6831:6831/udp

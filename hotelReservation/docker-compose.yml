@@ -1,7 +1,7 @@
 version: "2"
 services:
   consul:
-    image: hashicorp/consul:latest
+    image: hashicorp/consul:latest # known working cc25a3eca5a0
     ports:
       - "8300:8300"
       - "8400:8400"
@@ -138,7 +138,7 @@ services:
     restart: always
 
   jaeger:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/all-in-one:latest # known working a13f4e85c017
     container_name: 'hotel_reserv_jaeger'
     ports:
       - "14269"
@@ -152,7 +152,7 @@ services:
     restart: always
 
   memcached-rate:
-    image: memcached
+    image: memcached # known working a02edcf1b9d0
     # hostname: user-memcached
     container_name: 'hotel_reserv_rate_mmc'
     restart: always
@@ -188,7 +188,7 @@ services:
     #     max-size: 50m
 
   mongodb-geo:
-    image: mongo:4.4.6
+    image: mongo:4.4.6 # known working 61ea24dc52c6
     container_name: 'hotel_reserv_geo_mongo'
     # hostname: geo-db
     restart: always
